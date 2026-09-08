@@ -183,7 +183,7 @@ export const ANOMALIES: Anomaly[] = Array.from({ length: 34 }).map((_, i) => {
     deviation: Number((last.value - last.expected).toFixed(2)),
     unit: meta.unit,
     model: faulty ? "Isolation Forest + LSTM residual" : "LSTM residual + spatial consensus",
-    status: (["open", "acknowledged", "resolved"] as const)[i % 3],
+    status: (["open", "acknowledged", "resolved"] as const)[i % 3]!,
     summary: faulty
       ? `${meta.label} channel diverged from the forecast baseline while every neighbouring station stayed nominal — signature of an instrument fault, not weather.`
       : `${meta.label} shifted sharply, and neighbouring stations plus co-located sensors moved in the same direction — consistent with a real weather event.`,
