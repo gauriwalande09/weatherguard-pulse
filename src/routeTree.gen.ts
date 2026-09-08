@@ -10,11 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as SensorsRouteImport } from './routes/sensors'
+import { Route as StationsRouteImport } from './routes/stations'
 import { Route as AnomaliesIndexRouteImport } from './routes/anomalies.index'
+import { Route as AnomaliesIdRouteImport } from './routes/anomalies.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SensorsRoute = SensorsRouteImport.update({
+  id: '/sensors',
+  path: '/sensors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StationsRoute = StationsRouteImport.update({
+  id: '/stations',
+  path: '/stations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnomaliesIndexRoute = AnomaliesIndexRouteImport.update({
@@ -22,30 +41,70 @@ const AnomaliesIndexRoute = AnomaliesIndexRouteImport.update({
   path: '/anomalies/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnomaliesIdRoute = AnomaliesIdRouteImport.update({
+  id: '/anomalies/$id',
+  path: '/anomalies/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/sensors': typeof SensorsRoute
+  '/stations': typeof StationsRoute
+  '/anomalies/$id': typeof AnomaliesIdRoute
   '/anomalies/': typeof AnomaliesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/sensors': typeof SensorsRoute
+  '/stations': typeof StationsRoute
+  '/anomalies/$id': typeof AnomaliesIdRoute
   '/anomalies': typeof AnomaliesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/sensors': typeof SensorsRoute
+  '/stations': typeof StationsRoute
+  '/anomalies/$id': typeof AnomaliesIdRoute
   '/anomalies/': typeof AnomaliesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/anomalies/'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/sensors'
+    | '/stations'
+    | '/anomalies/$id'
+    | '/anomalies/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/anomalies'
-  id: '__root__' | '/' | '/anomalies/'
+  to:
+    | '/'
+    | '/analytics'
+    | '/sensors'
+    | '/stations'
+    | '/anomalies/$id'
+    | '/anomalies'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/sensors'
+    | '/stations'
+    | '/anomalies/$id'
+    | '/anomalies/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  SensorsRoute: typeof SensorsRoute
+  StationsRoute: typeof StationsRoute
+  AnomaliesIdRoute: typeof AnomaliesIdRoute
   AnomaliesIndexRoute: typeof AnomaliesIndexRoute
 }
 
@@ -58,6 +117,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sensors': {
+      id: '/sensors'
+      path: '/sensors'
+      fullPath: '/sensors'
+      preLoaderRoute: typeof SensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stations': {
+      id: '/stations'
+      path: '/stations'
+      fullPath: '/stations'
+      preLoaderRoute: typeof StationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/anomalies/': {
       id: '/anomalies/'
       path: '/anomalies'
@@ -65,11 +145,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnomaliesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anomalies/$id': {
+      id: '/anomalies/$id'
+      path: '/anomalies/$id'
+      fullPath: '/anomalies/$id'
+      preLoaderRoute: typeof AnomaliesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  SensorsRoute: SensorsRoute,
+  StationsRoute: StationsRoute,
+  AnomaliesIdRoute: AnomaliesIdRoute,
   AnomaliesIndexRoute: AnomaliesIndexRoute,
 }
 export const routeTree = rootRouteImport
