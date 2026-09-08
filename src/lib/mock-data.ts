@@ -158,14 +158,14 @@ function contributions(type: string, faulty: boolean) {
 
 export const ANOMALIES: Anomaly[] = Array.from({ length: 34 }).map((_, i) => {
   const r = rng(9001 + i * 53);
-  const station = STATIONS[i % STATIONS.length];
-  const type = ANOMALY_TYPES[i % ANOMALY_TYPES.length];
-  const sensorType = SENSOR_TYPES[(i * 3) % SENSOR_TYPES.length];
+  const station = STATIONS[i % STATIONS.length]!;
+  const type = ANOMALY_TYPES[i % ANOMALY_TYPES.length]!;
+  const sensorType = SENSOR_TYPES[(i * 3) % SENSOR_TYPES.length]!;
   const meta = SENSOR_META[sensorType];
   const faulty = i % 3 !== 1;
-  const severity = SEVERITIES[i % 4];
+  const severity = SEVERITIES[i % 4]!;
   const series = buildSeries(400 + i, sensorType, faulty, !faulty);
-  const last = series[series.length - 1];
+  const last = series[series.length - 1]!;
   const detected = new Date(Date.UTC(2026, 8, 8, 6 + (i % 10), (i * 7) % 60));
   return {
     id: `ANM-${(2401 + i).toString()}`,
