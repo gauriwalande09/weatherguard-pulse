@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import type { HealthStatus, Severity } from "@/lib/types";
+import { Button } from "@/components/ui/button";
 
 export function Panel({
   children,
@@ -20,8 +21,8 @@ export function Panel({
       {(title || action) && (
         <header className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
           <div className="min-w-0">
-            {title && <h2 className="truncate text-sm font-semibold tracking-wide text-foreground">{title}</h2>}
-            {subtitle && <p className="mt-0.5 text-xs text-muted-foreground">{subtitle}</p>}
+            {title && <h2 className="text-sm font-semibold text-foreground sm:text-base">{title}</h2>}
+            {subtitle && <p className="mt-1 text-xs leading-5 text-muted-foreground">{subtitle}</p>}
           </div>
           {action}
         </header>
@@ -46,7 +47,7 @@ export function SeverityBadge({ severity }: { severity: Severity }) {
         severityStyles[severity],
       )}
     >
-      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden="true" />
       {severity}
     </span>
   );
@@ -77,9 +78,9 @@ export function HealthBar({ value, status }: { value: number; status: HealthStat
   const bar =
     status === "healthy" ? "bg-success" : status === "degrading" ? "bg-warning" : "bg-critical";
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" aria-label={`Health ${value} percent, ${status.replace("_", " ")}`}>
       <div className="h-1.5 w-full min-w-16 overflow-hidden rounded-full bg-surface-2">
-        <div className={cn("h-full rounded-full transition-all", bar)} style={{ width: `${value}%` }} />
+        <div className={cn("h-full rounded-full transition-all", bar)} style={{ width: `${value}%` }} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} />
       </div>
       <span className={cn("w-9 shrink-0 text-right text-xs font-medium tabular-nums", healthStyles[status])}>
         {value}%
@@ -110,10 +111,10 @@ export function StatCard({
           ? "text-teal"
           : "text-foreground";
   return (
-    <div className="panel relative overflow-hidden p-4">
+    <div className="panel relative overflow-hidden p-4 transition-colors hover:border-primary/35">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <div className="min-w-0">
-          <p className="truncate text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
+          <p className="truncate text-[11px] font-semibold uppercase text-muted-foreground">{label}</p>
           <p className={cn("mt-2 text-2xl font-semibold tabular-nums sm:text-3xl", toneClass)}>{value}</p>
           {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
         </div>
@@ -133,18 +134,20 @@ export function Chip({
   onClick?: () => void;
 }) {
   return (
-    <button
+    <Button
       type="button"
+      variant="outline"
+      size="sm"
       onClick={onClick}
       className={cn(
-        "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+        "rounded-full px-3 text-xs",
         active
           ? "border-teal/50 bg-teal/15 text-teal"
           : "border-border bg-surface text-muted-foreground hover:text-foreground",
       )}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 
@@ -160,8 +163,8 @@ export function PageHeader({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
       <div className="min-w-0">
-        <h1 className="text-xl font-semibold tracking-tight sm:text-2xl">{title}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+        <h1 className="text-2xl font-semibold text-foreground sm:text-3xl">{title}</h1>
+        <p className="mt-1.5 max-w-3xl text-sm leading-6 text-muted-foreground">{description}</p>
       </div>
       {action}
     </div>
